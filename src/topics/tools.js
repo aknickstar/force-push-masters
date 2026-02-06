@@ -110,6 +110,46 @@ module.exports = function (Topics) {
 		return topicData;
 	}
 
+	topicTools.resolve = async function (tid, uid) {
+		return await toggleResolve(tid, uid, true);
+	};
+
+	topicTools.unresolve = async function (tid, uid) {
+		return await toggleResolve(tid, uid, false);
+	};
+
+	// This handles: topic lookup -> privilege checks -> DB update -> event log.
+	async function toggleResolve(tid, uid, resolve) {
+		// Fetch topic fields for permission checks
+		const topicData = await Topics.getTopicFields(tid, ['tid', 'uid', 'cid']);
+		if (!topicData || !topicData.cid) {
+			throw new Error('[[error:no-topic]]');
+		}
+
+		// Check whether caller is an admin/mod for this topic's category
+		const isAdminOrMod = await privileges.categories.isAdminOrMod(topicData.cid, uid);
+
+		// permission rules (open to later change based on needs): 
+		// only admin can resolve topics admin or topic author can unresolve
+		if (resolve) {
+			if (!isAdminOrMod) {
+				throw new Error('[[error:no-privileges]]');
+			}
+		} else if (!isAdminOrMod && uid !== topicData.uid) {
+			throw new Error('[[error:no-privileges]]');
+		}
+		// Persist resolved state in DB
+		await Topics.setTopicField(tid, 'resolved', resolve ? 1 : 0);
+
+		// Log a topic event so it appears in the topic timeline (like lock/pin)
+		topicData.events = await Topics.events.log(tid, { type: resolve ? 'resolve' : 'unresolve', uid });
+		topicData.resolved = resolve ? 1 : 0;
+
+		plugins.hooks.fire('action:topic.resolve', { topic: _.clone(topicData), uid: uid });
+		return topicData;
+	}
+  
+
 	topicTools.pin = async function (tid, uid) {
 		return await togglePin(tid, uid, true);
 	};
