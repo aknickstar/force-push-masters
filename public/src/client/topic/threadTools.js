@@ -51,6 +51,16 @@ define('forum/topic/threadTools', [
 			return false;
 		});
 
+		topicContainer.on('click', '[component="topic/resolve"]', function () {
+			topicCommand('put', '/resolve', 'resolve');
+			return false;
+		});
+
+		topicContainer.on('click', '[component="topic/unresolve"]', function () {
+			topicCommand('del', '/resolve', 'unresolve');
+			return false;
+		});
+
 		topicContainer.on('click', '[component="topic/pin"]', function () {
 			topicCommand('put', '/pin', 'pin');
 			return false;
@@ -390,6 +400,19 @@ define('forum/topic/threadTools', [
 			));
 		}
 		ajaxify.data.pinned = data.pinned;
+
+		posts.addTopicEvents(data.events);
+	};
+
+	ThreadTools.setResolvedState = function (data) {
+		const threadEl = components.get('topic');
+		if (String(data.tid) !== threadEl.attr('data-tid')) {
+			return;
+		}
+
+		components.get('topic/resolve').toggleClass('hidden', data.resolved).parent().attr('hidden', data.resolved ? '' : null);
+		components.get('topic/unresolve').toggleClass('hidden', !data.resolved).parent().attr('hidden', !data.resolved ? '' : null);
+		ajaxify.data.resolved = data.resolved ? 1 : 0;
 
 		posts.addTopicEvents(data.events);
 	};
