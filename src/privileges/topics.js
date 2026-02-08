@@ -171,6 +171,26 @@ privsTopics.canDelete = async function (tid, uid) {
 	return allowedTo[0] && ((isOwner && (deleterUid === 0 || deleterUid === topicData.uid)) || isModerator);
 };
 
+privsTopics.canResolve = async function (tid, uid) {
+	const topicData = await topics.getTopicFields(tid, ['uid', 'cid', 'postcount', 'resolverUid']);
+	const allowedTo = await helpers.isAllowedTo('topics:resolve', uid, [topicData.cid]);
+
+	if (user.isAdministrator(uid)) {
+		return true;
+	}
+	else if (user.isTA(uid)) {
+		return true;
+	}
+	else if (topics.isOwner(tid, uid)) {
+		return true;
+	}
+	
+	return user.isModerator(uid, topicData.cid) && allowedTo[0];
+
+	// return allowedTo[0] && ((isOwner && (topicData.resolverUid === 0 || 
+	// topicData.resolverUid === topicData.uid)) || isModerator);
+};
+
 privsTopics.canEdit = async function (tid, uid) {
 	return await privsTopics.isOwnerOrAdminOrMod(tid, uid);
 };
