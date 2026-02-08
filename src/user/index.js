@@ -198,6 +198,22 @@ User.isModeratorOfAnyCategory = async function (uid) {
 User.isAdministrator = async function (uid) {
 	return await privileges.users.isAdministrator(uid);
 };
+User.isAdministrator = async function (uid) {
+	return await privileges.users.isAdministrator(uid);
+};
+
+
+User.isStudent = async function (uid) {
+	return await privileges.users.isStudent(uid);
+};
+
+User.isTA = async function (uid) {
+	return await privileges.users.isTA(uid);
+};
+
+User.isProfessor = async function (uid) {
+	return await privileges.users.isProfessor(uid);
+};
 
 User.isGlobalModerator = async function (uid) {
 	return await privileges.users.isGlobalModerator(uid);
