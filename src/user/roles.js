@@ -30,6 +30,7 @@ const ROLE_PRIVILEGES = {
 			'groups:posts:view_deleted',
 			'groups:posts:history',
 			'groups:topics:delete',
+			'groups:topics:resolve',
 		],
 	},
 	professor: {
@@ -41,6 +42,8 @@ const ROLE_PRIVILEGES = {
 			'groups:topics:delete',
 			'groups:topics:schedule',
 			'groups:purge',
+			'groups:topics:resolve',
+
 		],
 	},
 };
