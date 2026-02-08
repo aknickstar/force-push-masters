@@ -40,7 +40,7 @@ privsTopics.get = async function (tid, uid) {
 	const privData = _.zipObject(privs, userPrivileges);
 	const isOwner = uid > 0 && uid === topicData.uid;
 	const isAdminOrMod = isAdministrator || isModerator;
-	const editable = isAdminOrMod;
+	const editable = isAdminOrMod || isTA || isProfessor;
 	const deletable = (privData['topics:delete'] && (isOwner || isModerator)) || isAdministrator;
 	const mayReply = privsTopics.canViewDeletedScheduled(topicData, {}, false, privData['topics:schedule']);
 	const hasTools = topicTools.tools.length > 0;
