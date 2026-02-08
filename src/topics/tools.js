@@ -129,7 +129,7 @@ module.exports = function (Topics) {
 
 		// Check whether caller is an admin/mod for this topic's category
 		//const isAdminOrMod = await privileges.categories.isAdminOrMod(topicData.cid, uid);
-		const canResolve = await privileges.topics.canResolve(tid, uid);
+		const canResolve = await privileges.categories.canResolve(topicData.cid, uid);
 
 		// permission rules (open to later change based on needs): 
 		// only admin can resolve topics admin or topic author can unresolve
