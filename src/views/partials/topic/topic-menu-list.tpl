@@ -8,11 +8,11 @@
 </li>
 
 <li {{{ if (resolved || !privileges.canResolve) }}}hidden{{{ end }}}>
-	<a component="topic/resolve" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if (resolved || !privileges.isAdminOrMod) }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-check-circle text-secondary"></i> [[topic:thread-tools.resolve]]</a>
+	<a component="topic/resolve" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if (resolved || !privileges.canResolve) }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-check-circle text-secondary"></i> [[topic:thread-tools.resolve]]</a>
 </li>
 
 <li {{{ if (!resolved || (!privileges.canResolve && !isOwner)) }}}hidden{{{ end }}}>
-	<a component="topic/unresolve" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if (!resolved || (!privileges.isAdminOrMod && !isOwner)) }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-question-circle text-secondary"></i> [[topic:thread-tools.unresolve]]</a>
+	<a component="topic/unresolve" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if (!resolved || (!privileges.canResolve && !isOwner)) }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-question-circle text-secondary"></i> [[topic:thread-tools.unresolve]]</a>
 </li>
 
 <li {{{ if pinned }}}hidden{{{ end }}}>
