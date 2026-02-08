@@ -7,11 +7,11 @@
 	<a component="topic/unlock" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if !locked }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-unlock text-secondary"></i> [[topic:thread-tools.unlock]]</a>
 </li>
 
-<li {{{ if (resolved || !privileges.isAdminOrMod) }}}hidden{{{ end }}}>
+<li {{{ if (resolved || !privileges.canResolve) }}}hidden{{{ end }}}>
 	<a component="topic/resolve" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if (resolved || !privileges.isAdminOrMod) }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-check-circle text-secondary"></i> [[topic:thread-tools.resolve]]</a>
 </li>
 
-<li {{{ if (!resolved || (!privileges.isAdminOrMod && !isOwner)) }}}hidden{{{ end }}}>
+<li {{{ if (!resolved || (!privileges.canResolve && !isOwner)) }}}hidden{{{ end }}}>
 	<a component="topic/unresolve" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if (!resolved || (!privileges.isAdminOrMod && !isOwner)) }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-question-circle text-secondary"></i> [[topic:thread-tools.unresolve]]</a>
 </li>
 
