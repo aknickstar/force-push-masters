@@ -111,9 +111,8 @@ module.exports = function (Topics) {
 	}
 
 	topicTools.resolve = async function (tid, uid) {
-		const canResolve = await privileges.topics.canResolve(tid, uid);
 
-		return canResolve && (await toggleResolve(tid, uid, true));
+		return await toggleResolve(tid, uid, true);
 	};
 
 	topicTools.unresolve = async function (tid, uid) {
@@ -129,15 +128,16 @@ module.exports = function (Topics) {
 		}
 
 		// Check whether caller is an admin/mod for this topic's category
-		const isAdminOrMod = await privileges.categories.isAdminOrMod(topicData.cid, uid);
+		//const isAdminOrMod = await privileges.categories.isAdminOrMod(topicData.cid, uid);
+		const canResolve = await privileges.topics.canResolve(tid, uid);
 
 		// permission rules (open to later change based on needs): 
 		// only admin can resolve topics admin or topic author can unresolve
 		if (resolve) {
-			if (!isAdminOrMod) {
+			if (!canResolve) {
 				throw new Error('[[error:no-privileges]]');
 			}
-		} else if (!isAdminOrMod && uid !== topicData.uid) {
+		} else if (!canResolve && uid !== topicData.uid) {
 			throw new Error('[[error:no-privileges]]');
 		}
 		// Persist resolved state in DB

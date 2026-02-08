@@ -19,14 +19,16 @@ privsTopics.get = async function (tid, uid) {
 
 	const privs = [
 		'topics:reply', 'topics:read', 'topics:schedule', 'topics:tag',
-		'topics:delete', 'posts:edit', 'posts:history',
+		'topics:delete', 'posts:edit', 'posts:history', 'topics:resolve',
 		'posts:upvote', 'posts:downvote',
 		'posts:delete', 'posts:view_deleted', 'read', 'purge',
 	];
 	const topicData = await topics.getTopicFields(tid, ['cid', 'uid', 'locked', 'deleted', 'scheduled']);
-	const [userPrivileges, isAdministrator, isModerator, disabled, topicTools] = await Promise.all([
+	const [userPrivileges, isAdministrator, isTA, isProfessor,isModerator, disabled, topicTools] = await Promise.all([
 		helpers.isAllowedTo(privs, uid, topicData.cid),
 		user.isAdministrator(uid),
+		user.isTA(uid),
+		user.isProfessor(uid),
 		user.isModerator(uid, topicData.cid),
 		categories.getCategoryField(topicData.cid, 'disabled'),
 		plugins.hooks.fire('filter:topic.thread_tools', {
@@ -48,7 +50,9 @@ privsTopics.get = async function (tid, uid) {
 		'topics:read': privData['topics:read'] || isAdministrator,
 		'topics:schedule': privData['topics:schedule'] || isAdministrator,
 		'topics:tag': privData['topics:tag'] || isAdministrator,
-		'topics:delete': (privData['topics:delete'] && (isOwner || isModerator)) || isAdministrator,
+		'topics:delete': (privData['topics:delete'] && (isOwner || isModerator)) || isAdministrator || isTA || isProfessor,
+		'topics:resolve': (privData['topics:resolve'] && (isOwner || isModerator)) || isAdministrator || isTA || isProfessor,
+
 		'posts:edit': (privData['posts:edit'] && (!topicData.locked || isModerator)) || isAdministrator,
 		'posts:history': privData['posts:history'] || isAdministrator,
 		'posts:upvote': privData['posts:upvote'] || isAdministrator,
