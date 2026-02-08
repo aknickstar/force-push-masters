@@ -111,7 +111,9 @@ module.exports = function (Topics) {
 	}
 
 	topicTools.resolve = async function (tid, uid) {
-		return await toggleResolve(tid, uid, true);
+		const canResolve = await privileges.topics.canResolve(tid, uid);
+
+		return canResolve && (await toggleResolve(tid, uid, true));
 	};
 
 	topicTools.unresolve = async function (tid, uid) {
