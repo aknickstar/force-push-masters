@@ -175,6 +175,10 @@ privsTopics.canDelete = async function (tid, uid) {
 	return allowedTo[0] && ((isOwner && (deleterUid === 0 || deleterUid === topicData.uid)) || isModerator);
 };
 
+
+//SPRINT 1: canResolve checks if user can resolve said topic. 
+//ideally this should be the functionality needed compared to what was put
+//in categories.
 privsTopics.canResolve = async function (tid, uid) {
 	const topicData = await topics.getTopicFields(tid, ['uid', 'cid', 'postcount', 'resolverUid']);
 	const allowedTo = await helpers.isAllowedTo('topics:resolve', uid, [topicData.cid]);

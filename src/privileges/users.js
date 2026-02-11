@@ -15,7 +15,7 @@ privsUsers.isAdministrator = async function (uid) {
 	return await isGroupMember(uid, 'administrators');
 };
 
-
+//SPRINT 1: is student, ta, and professor to check if they're part of the group
 privsUsers.isStudent = async function (uid) {
 	return await isGroupMember(uid, 'Students');
 };

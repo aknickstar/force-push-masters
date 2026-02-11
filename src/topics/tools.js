@@ -129,6 +129,9 @@ module.exports = function (Topics) {
 
 		// Check whether caller is an admin/mod for this topic's category
 		//const isAdminOrMod = await privileges.categories.isAdminOrMod(topicData.cid, uid);
+		
+		//SPRINT 1: CHANGED from admin/mod to canResolve, so multiple groups
+		//that are able to resolve are checked through the categories function
 		const canResolve = await privileges.categories.canResolve(topicData.cid, uid);
 
 		// permission rules (open to later change based on needs): 

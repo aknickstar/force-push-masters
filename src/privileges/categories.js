@@ -129,6 +129,7 @@ privsCategories.isAdminOrMod = async function (cid, uid) {
 	return isAdmin || isMod;
 };
 
+// SPRINT 1: canResolve used to check if user can resolve said category.
 privsCategories.canResolve = async function (cid, uid) {
 	if (parseInt(uid, 10) <= 0) {
 		return false;

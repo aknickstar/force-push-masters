@@ -22,6 +22,7 @@ const ROLE_DEFS = {
 	},
 };
 
+//SPRINT 1: added in privileges of resolve for both TA and Professor
 const ROLE_PRIVILEGES = {
 	ta: {
 		category: [

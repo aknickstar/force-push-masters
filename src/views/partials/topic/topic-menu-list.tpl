@@ -7,6 +7,8 @@
 	<a component="topic/unlock" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if !locked }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-unlock text-secondary"></i> [[topic:thread-tools.unlock]]</a>
 </li>
 
+<!-- tried to change the check from isAdminorMod to canResolve -->
+
 <li {{{ if (resolved || !privileges.canResolve) }}}hidden{{{ end }}}>
 	<a component="topic/resolve" href="#" class="dropdown-item rounded-1 d-flex align-items-center gap-2 {{{ if (resolved || !privileges.canResolve) }}}hidden{{{ end }}}" role="menuitem"><i class="fa fa-fw fa-check-circle text-secondary"></i> [[topic:thread-tools.resolve]]</a>
 </li>

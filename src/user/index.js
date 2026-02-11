@@ -198,11 +198,7 @@ User.isModeratorOfAnyCategory = async function (uid) {
 User.isAdministrator = async function (uid) {
 	return await privileges.users.isAdministrator(uid);
 };
-User.isAdministrator = async function (uid) {
-	return await privileges.users.isAdministrator(uid);
-};
-
-
+//SPRINT 1: check if a user is a student, ta, or professor
 User.isStudent = async function (uid) {
 	return await privileges.users.isStudent(uid);
 };
